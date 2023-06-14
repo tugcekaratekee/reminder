@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:reminder/data/todo_class.dart';
 
 void main() {
   runApp(const MyApp());
@@ -28,20 +29,30 @@ class MyHomePage extends StatefulWidget {
 }
 
 class _MyHomePageState extends State<MyHomePage> {
-  int _counter = 0;
-
-  void _incrementCounter() {
-    setState(() {
-      _counter++;
-    });
-  }
-
   final List<String> days = [
     'Today (8)',
     'Tomorrow (5)',
     '26 Aug (5)',
     '27 Aug (0)',
     '29 Aug (55)',
+  ];
+
+  final List<TodoItem> todoItem = [
+    TodoItem(
+      title: 'New Project Discussion',
+      time: '09:00 AM - 11:00 PM',
+      bgColor: Color(0xFF6A6BDF),
+    ),
+    TodoItem(
+      title: 'Some Project Discussion',
+      time: '09:00 AM - 11:00 PM',
+      bgColor: Color.fromARGB(255, 7, 126, 55),
+    ),
+    TodoItem(
+      title: 'Future Project Discussion',
+      time: '09:00 AM - 11:00 PM',
+      bgColor: Color.fromARGB(255, 66, 73, 69),
+    ),
   ];
   @override
   Widget build(BuildContext context) {
@@ -113,16 +124,16 @@ class _MyHomePageState extends State<MyHomePage> {
                 'It\'s a good day to start any event, you can make important decisions or plan them',
                 style: TextStyle(color: Colors.grey),
               ),
-              const TodoWidget(
-                title: 'New Project Discussion',
-                time: '09:00 AM - 11:00 PM',
-                bgColor: Color(0xFF6A6BDF),
-              ),
-              const TodoWidget(
-                title: 'Travel Dashboard Project',
-                time: '13:00 AM - 15:00 PM',
-                bgColor: Color(0xFF0090F9),
-              ),
+              Expanded(
+                child: ListView.builder(
+                  itemCount: todoItem.length,
+                  itemBuilder: (context, index) => TodoWidget(
+                    title: todoItem[index].title,
+                    time: todoItem[index].time,
+                    bgColor: todoItem[index].bgColor,
+                  ),
+                ),
+              )
             ],
           ),
         ));
@@ -143,58 +154,99 @@ class TodoWidget extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Container(
-      decoration: BoxDecoration(
-        borderRadius: BorderRadius.circular(10),
-        color: bgColor,
-      ),
-      padding: const EdgeInsets.all(12),
-      margin: EdgeInsets.only(bottom: 20),
-      child: Column(
-        children: [
-          Row(
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+    return GestureDetector(
+      onTap: () => showModalBottomSheet(
+        context: context,
+        builder: (context) => Container(
+          padding: EdgeInsets.all(20),
+          child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              Container(
-                width: MediaQuery.of(context).size.width * .45,
-                child: Text(
-                  title,
-                  maxLines: 2,
-                  overflow: TextOverflow.ellipsis,
-                  style: const TextStyle(
-                    fontSize: 25,
-                    height: 1.2,
-                    color: Colors.white,
+              Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  IconButton(
+                    onPressed: () {},
+                    icon: const Icon(Icons.close),
+                    style: ButtonStyle(
+                      backgroundColor: MaterialStateProperty.all(Colors.white),
+                    ),
                   ),
-                ),
+                  IconButton(
+                    onPressed: () {},
+                    icon: const Icon(Icons.more_horiz),
+                    style: ButtonStyle(
+                      backgroundColor: MaterialStateProperty.all(Colors.white),
+                    ),
+                  ),
+                ],
               ),
-              IconButton(
-                  onPressed: () {},
-                  icon: const Icon(
-                    Icons.more_horiz,
-                    color: Colors.white,
-                  ))
+              Text(
+                title,
+                style: TextStyle(fontSize: 30, fontWeight: FontWeight.bold),
+              ),
+              Text(
+                'Need to break down a new project discussion content into proper information engineering and make all content are fixed Need to break down a new project discussion content into proper information engineering and make all content are fixed.',
+                maxLines: 3,
+                overflow: TextOverflow.ellipsis,
+              ),
             ],
           ),
-          Row(
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            children: [
-              Text(
-                time,
-                style: const TextStyle(color: Colors.white),
-              ),
-              const CircleAvatar(
-                radius: 20,
-                backgroundColor: Colors.white,
-                child: CircleAvatar(
-                  radius: 15,
-                  backgroundImage: NetworkImage('https://picsum.photos/200'),
+        ),
+      ),
+      child: Container(
+        decoration: BoxDecoration(
+          borderRadius: BorderRadius.circular(10),
+          color: bgColor,
+        ),
+        padding: const EdgeInsets.all(12),
+        margin: EdgeInsets.only(bottom: 20),
+        child: Column(
+          children: [
+            Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Container(
+                  width: MediaQuery.of(context).size.width * .45,
+                  child: Text(
+                    title,
+                    maxLines: 2,
+                    overflow: TextOverflow.ellipsis,
+                    style: const TextStyle(
+                      fontSize: 25,
+                      height: 1.2,
+                      color: Colors.white,
+                    ),
+                  ),
                 ),
-              )
-            ],
-          )
-        ],
+                IconButton(
+                    onPressed: () {},
+                    icon: const Icon(
+                      Icons.more_horiz,
+                      color: Colors.white,
+                    ))
+              ],
+            ),
+            Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: [
+                Text(
+                  time,
+                  style: const TextStyle(color: Colors.white),
+                ),
+                const CircleAvatar(
+                  radius: 20,
+                  backgroundColor: Colors.white,
+                  child: CircleAvatar(
+                    radius: 15,
+                    backgroundImage: NetworkImage('https://picsum.photos/200'),
+                  ),
+                )
+              ],
+            )
+          ],
+        ),
       ),
     );
   }
