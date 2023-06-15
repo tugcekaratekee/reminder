@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:reminder/data/todo_class.dart';
+import 'package:reminder/data/sample.dart';
+import 'package:reminder/widget/day_button.dart';
+import 'package:reminder/widget/todo_widget.dart';
 
 void main() {
   runApp(const MyApp());
@@ -29,35 +31,17 @@ class MyHomePage extends StatefulWidget {
 }
 
 class _MyHomePageState extends State<MyHomePage> {
-  final List<String> days = [
-    'Today (8)',
-    'Tomorrow (5)',
-    '26 Aug (5)',
-    '27 Aug (0)',
-    '29 Aug (55)',
-  ];
-
-  final List<TodoItem> todoItem = [
-    TodoItem(
-      title: 'New Project Discussion',
-      time: '09:00 AM - 11:00 PM',
-      bgColor: Color(0xFF6A6BDF),
-    ),
-    TodoItem(
-      title: 'Some Project Discussion',
-      time: '09:00 AM - 11:00 PM',
-      bgColor: Color.fromARGB(255, 7, 126, 55),
-    ),
-    TodoItem(
-      title: 'Future Project Discussion',
-      time: '09:00 AM - 11:00 PM',
-      bgColor: Color.fromARGB(255, 66, 73, 69),
-    ),
-  ];
   @override
   Widget build(BuildContext context) {
     return Scaffold(
         backgroundColor: Colors.grey.shade300,
+        floatingActionButton: FloatingActionButton(
+          onPressed: () {},
+          child: IconButton(
+            icon: const Icon(Icons.edit),
+            onPressed: () {},
+          ),
+        ),
         appBar: AppBar(
           backgroundColor: Colors.transparent,
           leading: IconButton(
@@ -127,149 +111,12 @@ class _MyHomePageState extends State<MyHomePage> {
               Expanded(
                 child: ListView.builder(
                   itemCount: todoItem.length,
-                  itemBuilder: (context, index) => TodoWidget(
-                    title: todoItem[index].title,
-                    time: todoItem[index].time,
-                    bgColor: todoItem[index].bgColor,
-                  ),
+                  itemBuilder: (context, index) =>
+                      TodoWidget(item: todoItem[index]),
                 ),
               )
             ],
           ),
         ));
-  }
-}
-
-class TodoWidget extends StatelessWidget {
-  const TodoWidget({
-    super.key,
-    required this.title,
-    required this.time,
-    required this.bgColor,
-  });
-
-  final String title;
-  final String time;
-  final Color bgColor;
-
-  @override
-  Widget build(BuildContext context) {
-    return GestureDetector(
-      onTap: () => showModalBottomSheet(
-        context: context,
-        builder: (context) => Container(
-          padding: EdgeInsets.all(20),
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: [
-                  IconButton(
-                    onPressed: () {},
-                    icon: const Icon(Icons.close),
-                    style: ButtonStyle(
-                      backgroundColor: MaterialStateProperty.all(Colors.white),
-                    ),
-                  ),
-                  IconButton(
-                    onPressed: () {},
-                    icon: const Icon(Icons.more_horiz),
-                    style: ButtonStyle(
-                      backgroundColor: MaterialStateProperty.all(Colors.white),
-                    ),
-                  ),
-                ],
-              ),
-              Text(
-                title,
-                style: TextStyle(fontSize: 30, fontWeight: FontWeight.bold),
-              ),
-              Text(
-                'Need to break down a new project discussion content into proper information engineering and make all content are fixed Need to break down a new project discussion content into proper information engineering and make all content are fixed.',
-                maxLines: 3,
-                overflow: TextOverflow.ellipsis,
-              ),
-            ],
-          ),
-        ),
-      ),
-      child: Container(
-        decoration: BoxDecoration(
-          borderRadius: BorderRadius.circular(10),
-          color: bgColor,
-        ),
-        padding: const EdgeInsets.all(12),
-        margin: EdgeInsets.only(bottom: 20),
-        child: Column(
-          children: [
-            Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                Container(
-                  width: MediaQuery.of(context).size.width * .45,
-                  child: Text(
-                    title,
-                    maxLines: 2,
-                    overflow: TextOverflow.ellipsis,
-                    style: const TextStyle(
-                      fontSize: 25,
-                      height: 1.2,
-                      color: Colors.white,
-                    ),
-                  ),
-                ),
-                IconButton(
-                    onPressed: () {},
-                    icon: const Icon(
-                      Icons.more_horiz,
-                      color: Colors.white,
-                    ))
-              ],
-            ),
-            Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: [
-                Text(
-                  time,
-                  style: const TextStyle(color: Colors.white),
-                ),
-                const CircleAvatar(
-                  radius: 20,
-                  backgroundColor: Colors.white,
-                  child: CircleAvatar(
-                    radius: 15,
-                    backgroundImage: NetworkImage('https://picsum.photos/200'),
-                  ),
-                )
-              ],
-            )
-          ],
-        ),
-      ),
-    );
-  }
-}
-
-class DayButton extends StatelessWidget {
-  const DayButton({super.key, required this.title, required this.isActive});
-
-  final String title;
-  final bool isActive;
-
-  @override
-  Widget build(BuildContext context) {
-    return Container(
-      margin: const EdgeInsets.only(right: 10),
-      decoration: BoxDecoration(
-          borderRadius: BorderRadius.circular(20),
-          color: isActive ? Colors.black : Colors.grey.shade200),
-      padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 7),
-      child: Text(
-        title,
-        style: TextStyle(color: isActive ? Colors.white : Colors.grey),
-      ),
-    );
   }
 }
