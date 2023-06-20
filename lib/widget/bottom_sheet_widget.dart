@@ -43,8 +43,8 @@ class ModalBottomSheetWidget extends StatelessWidget {
               item.title,
               style: const TextStyle(fontSize: 30, fontWeight: FontWeight.bold),
             ),
-            const Text(
-              'Need to break down a new project discussion content into proper information engineering and make all content are fixed Need to break down a new project discussion content into proper information engineering and make all content are fixed.',
+            Text(
+              item.desc,
               maxLines: 3,
               overflow: TextOverflow.ellipsis,
             ),

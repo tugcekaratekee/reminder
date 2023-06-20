@@ -1,5 +1,7 @@
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:reminder/model/todo_class.dart';
+import 'package:reminder/view/todo_item_detail_page.dart';
 import 'package:reminder/widget/bottom_sheet_widget.dart';
 
 class TodoWidget extends StatelessWidget {
@@ -42,7 +44,12 @@ class TodoWidget extends StatelessWidget {
                   ),
                 ),
                 IconButton(
-                    onPressed: () {},
+                    onPressed: () => Navigator.push(
+                          context,
+                          CupertinoPageRoute(
+                            builder: (context) => TodoItemDetailPage(item),
+                          ),
+                        ),
                     icon: const Icon(
                       Icons.more_horiz,
                       color: Colors.white,
